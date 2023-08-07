@@ -10,9 +10,8 @@
     }
     body {
       background-color: black; /* 将网页背景设为黑色 */
-    }
-    .title {
-      float: left;
+      margin: 0; /* 移除默认的页面边距 */
+      padding: 0; /* 移除默认的页面内边距 */
     }
     .outer-border {
       border: 1px solid;
@@ -28,6 +27,19 @@
       background-color: black;/* 将网页控制台设为黑色 */
       color: #ccc;
       white-space: pre-wrap; /* 保留换行符 */
+    }
+
+    /* 针对移动设备的媒体查询（屏幕宽度小于768px） */
+    @media only screen and (max-width: 767px) {
+      html {
+        font-size: 12px;
+      }
+      .outer-border {
+        font-size: 0.6rem;
+      }
+      .inner-border {
+        font-size: 0.8rem;
+      }
     }
   </style>
 </head>
@@ -84,6 +96,7 @@ Copyleft (c) 2000 Objet petit a. All lefts reserved.
 
     // 开始打字机效果
     typeText();
+    // 其余的JavaScript代码保持不变
   </script>
 </body>
 </html>

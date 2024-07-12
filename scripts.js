@@ -1,32 +1,40 @@
-const resizeContainer = document.getElementById('resize-container');
-const paymentImg = document.getElementById('payment-img');
-let resizeTimer;
+let isResizing = false;
+let lastDownX = 0;
 
-resizeContainer.addEventListener('mousedown', function () {
-  document.addEventListener('mousemove', resizeThrottler, false);
-});
+// Listen for the mousedown or touchstart event
+resizeContainer.addEventListener('mousedown', startResize);
+resizeContainer.addEventListener('touchstart', startResize);
 
-document.addEventListener('mouseup', function () {
-  document.removeEventListener('mousemove', resizeThrottler, false);
-});
-
-function resizeThrottler() {
-  // ignore resize events as long as an actualResizeHandler execution is in the queue
-  if (!resizeTimer) {
-    resizeTimer = setTimeout(function () {
-      resizeTimer = null;
-      actualResizeHandler();
-
-      // The actualResizeHandler will execute at a rate of 100ms
-    }, 100);
-  }
+function startResize(e) {
+  isResizing = true;
+  lastDownX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
 }
 
-function actualResizeHandler() {
-  // Calculate the new size and update the image
-  const size = resizeContainer.offsetWidth;
-  const modSize = size % 5;
-  const imgNumber = modSize + 1; // Assuming the images are named from 1 to 5
-  paymentImg.src = `pics/qr${imgNumber}.jpg`;
+// Listen for the mousemove or touchmove event
+window.addEventListener('mousemove', resize);
+window.addEventListener('touchmove', resize);
+
+function resize(e) {
+  if (!isResizing) 
+    return;
+  
+  const clientX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+  
+  // Calculate the new width of the container
+  const newWidth = resizeContainer.offsetWidth + (clientX - lastDownX);
+  resizeContainer.style.width = newWidth + 'px';
+  
+  // Update the last X position
+  lastDownX = clientX;
+  
+  // Call the resize handler
+  actualResizeHandler();
 }
 
+// Listen for the mouseup or touchend event
+window.addEventListener('mouseup', endResize);
+window.addEventListener('touchend', endResize);
+
+function endResize(e) {
+  isResizing = false;
+}

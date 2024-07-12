@@ -26,15 +26,12 @@ function resize(e) {
   
   // Update the last X position
   lastDownX = clientX;
-  
-  // Call the resize handler
-  actualResizeHandler();
 }
 
 // Listen for the mouseup or touchend event
-window.addEventListener('mouseup', endResize);
-window.addEventListener('touchend', endResize);
+window.addEventListener('mouseup', stopResize);
+window.addEventListener('touchend', stopResize);
 
-function endResize(e) {
+function stopResize() {
   isResizing = false;
 }

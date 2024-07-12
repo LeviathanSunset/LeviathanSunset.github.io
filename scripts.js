@@ -1,14 +1,13 @@
-document.addEventListener('mousemove', resizeThrottler, false);
-document.addEventListener('touchmove', resizeThrottler, false); // Add this line
+const resizeContainer = document.getElementById('resize-container');
+const paymentImg = document.getElementById('payment-img');
+let resizeTimer;
+
+resizeContainer.addEventListener('mousedown', function () {
+  document.addEventListener('mousemove', resizeThrottler, false);
+});
 
 document.addEventListener('mouseup', function () {
   document.removeEventListener('mousemove', resizeThrottler, false);
-  document.removeEventListener('touchmove', resizeThrottler, false); // Add this line
-});
-
-document.addEventListener('touchend', function () { // Add this block
-  document.removeEventListener('mousemove', resizeThrottler, false);
-  document.removeEventListener('touchmove', resizeThrottler, false);
 });
 
 function resizeThrottler() {
@@ -30,3 +29,4 @@ function actualResizeHandler() {
   const imgNumber = modSize + 1; // Assuming the images are named from 1 to 5
   paymentImg.src = `pics/qr${imgNumber}.jpg`;
 }
+
